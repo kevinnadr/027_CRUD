@@ -28,3 +28,14 @@ db.connect((err) => {
   }
     console.log("Connection to database successful");
 });
+
+app.get('/api/users', (req, res) => {
+    db.query("SELECT * FROM mahasiswa", (err, results) => {
+        if (err) {
+            console.error("Error retrieving users:" + err.stack);
+            res.status(500).send("Error fetching users");
+            return;
+        }
+        res.json(results);
+    });
+});
