@@ -39,3 +39,24 @@ app.get('/api/users', (req, res) => {
         res.json(results);
     });
 });
+
+app.post('/api/users', (req, res) => {
+    const { nama, nim, kelas } = req.body;
+
+    if (!nama || !nim || !kelas) {
+        return res.status(400).send("All fields are required");
+        
+    }
+
+    db.query(
+        "INSERT INTO mahasiswa (nama, nim, kelas) VALUES (?, ?, ?)",
+        [nama, nim, kelas], 
+        (err, results) => {
+         if (err) {
+                console.error(err);
+                return res.status(500).json({ Message: "database error" });
+            }
+            res.status(201).json({ Message: "User created successfully" });
+        }
+    );
+});
